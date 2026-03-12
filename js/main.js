@@ -46,9 +46,18 @@ document.querySelectorAll('.section').forEach(section => {
 
 // ===== Order form handling =====
 const orderForm = document.getElementById('orderForm');
+const COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes between submissions
 
 orderForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // Check cooldown — prevent spam
+  const lastSubmit = localStorage.getItem('lastOrderSubmit');
+  if (lastSubmit && Date.now() - Number(lastSubmit) < COOLDOWN_MS) {
+    const mins = Math.ceil((COOLDOWN_MS - (Date.now() - Number(lastSubmit))) / 60000);
+    alert('Please wait ' + mins + ' minute(s) before submitting another order.');
+    return;
+  }
 
   const btn = orderForm.querySelector('button[type="submit"]');
   const originalText = btn.textContent;
@@ -70,6 +79,7 @@ orderForm.addEventListener('submit', async (e) => {
       btn.style.background = '#4caf50';
       btn.style.borderColor = '#4caf50';
       orderForm.reset();
+      localStorage.setItem('lastOrderSubmit', Date.now().toString());
     } else {
       btn.textContent = 'Error — Try Again';
       btn.style.background = '#e53935';
