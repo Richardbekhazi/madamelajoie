@@ -47,41 +47,46 @@ document.querySelectorAll('.section').forEach(section => {
 // ===== Order form handling =====
 const orderForm = document.getElementById('orderForm');
 
-orderForm.addEventListener('submit', (e) => {
+orderForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(orderForm);
-  const data = Object.fromEntries(formData.entries());
-
-  // For now, show a confirmation message
-  // Later: connect to Formspree, Cloudflare Workers, or email API
   const btn = orderForm.querySelector('button[type="submit"]');
   const originalText = btn.textContent;
-
-  btn.textContent = 'Message Sent! ✓';
+  btn.textContent = 'Sending...';
   btn.disabled = true;
-  btn.style.background = '#4caf50';
-  btn.style.borderColor = '#4caf50';
 
-  // Build mailto fallback
-  const subject = encodeURIComponent('Cake Order Request - ' + data.cakeType);
-  const body = encodeURIComponent(
-    'Name: ' + data.name + '\n' +
-    'Email: ' + data.email + '\n' +
-    'Phone: ' + (data.phone || 'N/A') + '\n' +
-    'Cake Type: ' + data.cakeType + '\n' +
-    'Event Date: ' + data.date + '\n\n' +
-    'Message:\n' + data.message
-  );
-  window.location.href = 'mailto:hello@madamelajoie.com?subject=' + subject + '&body=' + body;
+  const formData = new FormData(orderForm);
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      btn.textContent = 'Order Sent! ✓';
+      btn.style.background = '#4caf50';
+      btn.style.borderColor = '#4caf50';
+      orderForm.reset();
+    } else {
+      btn.textContent = 'Error — Try Again';
+      btn.style.background = '#e53935';
+      btn.style.borderColor = '#e53935';
+    }
+  } catch {
+    btn.textContent = 'Error — Try Again';
+    btn.style.background = '#e53935';
+    btn.style.borderColor = '#e53935';
+  }
 
   setTimeout(() => {
     btn.textContent = originalText;
     btn.disabled = false;
     btn.style.background = '';
     btn.style.borderColor = '';
-    orderForm.reset();
-  }, 3000);
+  }, 4000);
 });
 
 // ===== Set min date to today for the date picker =====
