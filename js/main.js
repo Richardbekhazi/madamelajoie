@@ -46,7 +46,7 @@ document.querySelectorAll('.section').forEach(section => {
 
 // ===== Order form handling =====
 const orderForm = document.getElementById('orderForm');
-const COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes between submissions
+const COOLDOWN_MS = 5 * 1000; // 5 seconds between submissions
 
 orderForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -54,8 +54,8 @@ orderForm.addEventListener('submit', async (e) => {
   // Check cooldown — prevent spam
   const lastSubmit = localStorage.getItem('lastOrderSubmit');
   if (lastSubmit && Date.now() - Number(lastSubmit) < COOLDOWN_MS) {
-    const mins = Math.ceil((COOLDOWN_MS - (Date.now() - Number(lastSubmit))) / 60000);
-    alert('Please wait ' + mins + ' minute(s) before submitting another order.');
+    const secs = Math.ceil((COOLDOWN_MS - (Date.now() - Number(lastSubmit))) / 1000);
+    alert('Please wait ' + secs + ' second(s) before submitting another order.');
     return;
   }
 
