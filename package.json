@@ -1,0 +1,9 @@
+{
+  "name": "madamelajoie",
+  "version": "1.0.0",
+  "description": "Madame La Joie - Artisan Cakes in Ottawa",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build step needed'"
+  }
+}
