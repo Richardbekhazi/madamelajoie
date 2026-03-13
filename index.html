@@ -278,6 +278,14 @@
             <label for="date">Event Date</label>
             <input type="date" id="date" name="date" required>
           </div>
+          <div class="form-group">
+            <label for="fulfillment">Delivery or Pickup?</label>
+            <select id="fulfillment" name="fulfillment" required>
+              <option value="">Select an option...</option>
+              <option value="pickup">Pickup</option>
+              <option value="delivery">Delivery</option>
+            </select>
+          </div>
           <div class="form-group full-width">
             <label for="message">Tell us about your cake</label>
             <textarea id="message" name="message" rows="5" required placeholder="Describe your dream cake — flavors, theme, number of servings, any allergies..."></textarea>
