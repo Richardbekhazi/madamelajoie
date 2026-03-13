@@ -640,9 +640,7 @@ a {
 
 .contact-info-image img {
   width: 100%;
-  height: 280px;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
 }
 
 .contact-info h3 {
