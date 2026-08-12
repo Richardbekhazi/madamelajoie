@@ -15,13 +15,22 @@ const navLinks = document.getElementById('navLinks');
 
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('active');
+  navToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
 });
 
 // Close mobile nav when clicking a link
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('active');
+    navToggle.setAttribute('aria-expanded', 'false');
   });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    navLinks.classList.remove('active');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
 });
 
 // ===== Scroll-reveal animation =====
